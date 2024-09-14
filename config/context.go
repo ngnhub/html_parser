@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/ngnhub/html_scrapper/service"
 	"sync"
 )
 
@@ -10,7 +9,6 @@ var mutex = &sync.Mutex{}
 
 type AppContext struct {
 	ConfigProperties *Properties
-	Scrapper         *service.Scrapper
 }
 
 func GetAppContext() *AppContext {

@@ -4,6 +4,16 @@ import (
 	"golang.org/x/net/html"
 )
 
+type Searcher interface {
+	searchFirstNode(key string, node *html.Node) (ValueAndNode, bool)
+	searchSecondNode(key string, prevSibling *html.Node, depth int) (ValueAndParent, bool)
+	getNextSiblingValue(prevParent ValueAndParent) ValueAndParent
+}
+
+type ScrapperService struct {
+	Searcher Searcher
+}
+
 type Found struct {
 	Values []string
 }

@@ -8,11 +8,11 @@ import (
 	"net/http"
 )
 
-type Home struct {
+type HomeController struct {
 	context *config.AppContext
 }
 
-func (h *Home) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *HomeController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	resp := []byte("Hi!")
 	_, err := w.Write(resp)
 	if err != nil {
@@ -20,7 +20,7 @@ func (h *Home) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type ParserController struct {
+type ScrapperController struct {
 	context *config.AppContext
 	service service.ScrapperService
 }
@@ -30,7 +30,7 @@ type ParseRequest struct {
 	Keys        []string `json:"keys"`
 }
 
-func (p ParserController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (p *ScrapperController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	request := ParseRequest{}
 	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
@@ -45,7 +45,7 @@ func (p ParserController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	scrap := p.service.Scrap(request.Keys, html)
 	err = json.NewEncoder(w).Encode(scrap)
 	if err != nil {
-		AutoHandle(err, w) // todo general error handler
+		AutoHandle(err, w)
 		return
 	}
 	log.Debugf("Parsed request %v", request)

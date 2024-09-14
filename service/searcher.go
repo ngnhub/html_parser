@@ -5,12 +5,6 @@ import (
 	"strings"
 )
 
-type Searcher interface {
-	searchFirstNode(key string, node *html.Node) (ValueAndNode, bool)
-	searchSecondNode(key string, prevSibling *html.Node, depth int) (ValueAndParent, bool)
-	getNextSiblingValue(prevParent ValueAndParent) ValueAndParent
-}
-
 type DefaultSearcher struct{}
 
 func (d DefaultSearcher) searchFirstNode(key string, node *html.Node) (ValueAndNode, bool) {

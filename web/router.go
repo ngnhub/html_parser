@@ -11,11 +11,11 @@ func Route() http.Handler {
 	context := config.GetAppContext()
 	mux := pat.New()
 
-	home := Home{context}
+	home := HomeController{context}
 	scrapperService := service.ScrapperService{Searcher: service.DefaultSearcher{}}
-	parser := ParserController{service: scrapperService}
+	scrapper := ScrapperController{service: scrapperService}
 
 	mux.Get("/", &home)
-	mux.Post("/", &parser)
+	mux.Post("/", &scrapper)
 	return mux
 }
