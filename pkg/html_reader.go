@@ -1,4 +1,4 @@
-package service
+package pkg
 
 import (
 	"fmt"
@@ -10,11 +10,11 @@ import (
 )
 
 type InvalidURLError struct {
-	cause error
+	Cause error
 }
 
 func (a InvalidURLError) Error() string {
-	return fmt.Errorf("invalid URL address %w", a.cause).Error()
+	return fmt.Errorf("invalid URL address: %w", a.Cause).Error()
 }
 
 func Read(htmlPageAddress string) (*html.Node, error) {
