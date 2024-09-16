@@ -9,7 +9,7 @@ import (
 )
 
 type HomeController struct {
-	context *config.AppContext
+	context *config.Application
 }
 
 func (h *HomeController) ServeHTTP(w http.ResponseWriter, r *http.Request) {

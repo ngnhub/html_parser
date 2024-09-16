@@ -2,7 +2,7 @@ package config
 
 import log "github.com/sirupsen/logrus"
 
-func (a *AppContext) ConfigLogger() {
+func (a *Application) ConfigLogger() {
 	properties := a.ConfigProperties.LoggingProperties
 	if properties == nil {
 		log.SetLevel(log.InfoLevel)

@@ -8,14 +8,12 @@ import (
 	"net/http"
 )
 
-var context = config.GetAppContext()
-var pops = context.ConfigProperties
-
 func main() {
-	context.ConfigLogger()
-	properties := pops.ServerProperties
-	handler := web.Route()
-	server := &http.Server{Addr: fmt.Sprintf(":%v", properties.Port), Handler: handler}
+	app := config.CreateApplication()
+	properties := app.ConfigProperties
+	router := web.NewRouter(app)
+	handler := router.Route()
+	server := &http.Server{Addr: fmt.Sprintf(":%v", properties.ServerProperties.Port), Handler: handler}
 	log.Infof("Server started on %v", server.Addr)
 	err := server.ListenAndServe()
 	if err != nil {

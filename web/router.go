@@ -7,8 +7,16 @@ import (
 	"net/http"
 )
 
-func Route() http.Handler {
-	context := config.GetAppContext()
+type Router struct {
+	app *config.Application
+}
+
+func NewRouter(app *config.Application) *Router {
+	return &Router{app: app}
+}
+
+func (Router) Route() http.Handler {
+	context := config.CreateApplication()
 	mux := pat.New()
 
 	home := HomeController{context}
