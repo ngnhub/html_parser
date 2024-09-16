@@ -14,7 +14,7 @@ func (a *AppContext) ConfigLogger() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if &level == nil {
+	if level == log.PanicLevel {
 		log.SetLevel(log.InfoLevel)
 		log.Info("Logging level set to INFO")
 	} else {

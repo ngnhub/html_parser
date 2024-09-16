@@ -25,6 +25,9 @@ func TestRead(t *testing.T) {
 		Reply(200).
 		BodyString(string(htmlFile))
 	validHtml, err := html.Parse(bytes.NewReader(htmlFile))
+	if err != nil {
+		t.Error(err)
+	}
 
 	invalidAddress := "invalid_address"
 	_, invalidURLErr := url.ParseRequestURI(invalidAddress)

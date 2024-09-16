@@ -21,7 +21,6 @@ func (h *HomeController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 type ScrapperController struct {
-	context *config.AppContext
 	service service.ScrapperService
 }
 
