@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/ngnhub/html_scrapper/config"
-	"github.com/ngnhub/html_scrapper/web"
+	"github.com/ngnhub/html_scrapper/internal/config"
+	"github.com/ngnhub/html_scrapper/internal/web"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 )

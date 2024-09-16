@@ -2,7 +2,7 @@ package service
 
 import (
 	"bytes"
-	searcher2 "github.com/ngnhub/html_scrapper/service/searcher"
+	searcher2 "github.com/ngnhub/html_scrapper/internal/service/searcher"
 	"golang.org/x/net/html"
 	"os"
 	"reflect"

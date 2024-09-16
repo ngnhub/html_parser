@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/ngnhub/html_scrapper/service/searcher"
+	"github.com/ngnhub/html_scrapper/internal/service/searcher"
 	"golang.org/x/net/html"
 )
 

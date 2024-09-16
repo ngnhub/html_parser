@@ -2,7 +2,7 @@ package web
 
 import (
 	"errors"
-	"github.com/ngnhub/html_scrapper/service"
+	"github.com/ngnhub/html_scrapper/internal/service"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 )

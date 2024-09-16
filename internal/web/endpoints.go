@@ -2,8 +2,8 @@ package web
 
 import (
 	"encoding/json"
-	"github.com/ngnhub/html_scrapper/config"
-	"github.com/ngnhub/html_scrapper/service"
+	"github.com/ngnhub/html_scrapper/internal/config"
+	"github.com/ngnhub/html_scrapper/internal/service"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 )
