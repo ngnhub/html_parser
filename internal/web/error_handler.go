@@ -11,20 +11,20 @@ func AutoHandle(err error, w http.ResponseWriter) {
 	var invalidUrl service.InvalidURLError
 	switch {
 	case errors.As(err, &invalidUrl):
-		Code400(err, w)
+		BadRequest(err, w)
 	default:
-		Code500(err, w)
+		InternalError(err, w)
 	}
 }
 
-func Code400(err error, w http.ResponseWriter) {
+func BadRequest(err error, w http.ResponseWriter) {
 	if err != nil {
 		log.Errorf("Invalid request: %v", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 }
 
-func Code500(err error, w http.ResponseWriter) {
+func InternalError(err error, w http.ResponseWriter) {
 	if err != nil {
 		log.Errorf("Error whie handling request %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
