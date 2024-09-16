@@ -2,7 +2,7 @@ package service
 
 import (
 	"bytes"
-	searcher2 "github.com/ngnhub/html_scrapper/internal/service/searcher"
+	"github.com/ngnhub/html_scrapper/internal/service/searcher/default"
 	"golang.org/x/net/html"
 	"os"
 	"reflect"
@@ -25,7 +25,7 @@ func TestScrap(t *testing.T) {
 		keys []string
 		node *html.Node
 	}
-	searcher := searcher2.DefaultSearcher{}
+	searcher := defaultsearcher.DefaultSearcher{}
 	tests := []struct {
 		name    string
 		service *ScrapperService

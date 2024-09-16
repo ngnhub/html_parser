@@ -8,7 +8,7 @@ type ValueAndNode struct {
 	Node  *html.Node
 }
 
-func emptyValueAndNode(key string) ValueAndNode {
+func EmptyValueAndNode(key string) ValueAndNode {
 	return ValueAndNode{key, "", nil}
 }
 
@@ -16,10 +16,10 @@ type ValueAndParent struct {
 	Key    string
 	Value  string
 	Parent *html.Node
-	depth  int
+	Depth  int
 }
 
-func emptyValueAndParent(key string) ValueAndParent {
+func EmptyValueAndParent(key string) ValueAndParent {
 	return ValueAndParent{key, "", nil, 0}
 }
 
