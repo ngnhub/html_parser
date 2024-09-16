@@ -4,6 +4,7 @@ import (
 	"github.com/bmizerany/pat"
 	"github.com/ngnhub/html_scrapper/config"
 	"github.com/ngnhub/html_scrapper/service"
+	"github.com/ngnhub/html_scrapper/service/searcher"
 	"net/http"
 )
 
@@ -20,7 +21,7 @@ func (Router) Route() http.Handler {
 	mux := pat.New()
 
 	home := HomeController{context}
-	scrapperService := service.ScrapperService{Searcher: service.DefaultSearcher{}}
+	scrapperService := service.ScrapperService{Searcher: searcher.DefaultSearcher{}}
 	scrapper := ScrapperController{service: scrapperService}
 
 	mux.Get("/", &home)

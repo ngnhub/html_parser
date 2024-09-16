@@ -1,4 +1,4 @@
-package service
+package searcher
 
 import "golang.org/x/net/html"
 
@@ -27,7 +27,7 @@ type ValuesAndNodes []ValueAndNode
 
 type ValuesAndParents []ValueAndParent
 
-func (v *ValuesAndParents) isEmpty() bool {
+func (v *ValuesAndParents) IsEmpty() bool {
 	allNil := true
 	for _, v := range *v {
 		if v.Parent != nil {
@@ -37,7 +37,7 @@ func (v *ValuesAndParents) isEmpty() bool {
 	return allNil
 }
 
-func (v *ValuesAndNodes) mapToStrings() []string {
+func (v *ValuesAndNodes) MapToStrings() []string {
 	res := make([]string, 0, len(*v))
 	for _, val := range *v {
 		res = append(res, val.Value)
@@ -45,7 +45,7 @@ func (v *ValuesAndNodes) mapToStrings() []string {
 	return res
 }
 
-func (v *ValuesAndParents) mapToStrings() []string {
+func (v *ValuesAndParents) MapToStrings() []string {
 	res := make([]string, 0, len(*v))
 	for _, val := range *v {
 		res = append(res, val.Value)

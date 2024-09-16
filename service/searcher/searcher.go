@@ -1,22 +1,27 @@
-package service
+package searcher
 
 import (
 	"golang.org/x/net/html"
 	"strings"
 )
 
+type Searcher interface {
+	SearchFirstNode(key string, node *html.Node) (ValueAndNode, bool)
+	SearchSecondNode(key string, prevSibling *html.Node, depth int) (ValueAndParent, bool)
+	GetNextSiblingValue(prevParent ValueAndParent) ValueAndParent
+}
 type DefaultSearcher struct{}
 
-func (d DefaultSearcher) searchFirstNode(key string, node *html.Node) (ValueAndNode, bool) {
+func (d DefaultSearcher) SearchFirstNode(key string, node *html.Node) (ValueAndNode, bool) {
 	if node == nil {
 		return emptyValueAndNode(key), false
 	}
 	if isMatch(key, node) {
 		return ValueAndNode{key, extractValue(node.FirstChild), node}, true
 	}
-	val, ok := d.searchFirstNode(key, firstChildWithoutATrash(node))
+	val, ok := d.SearchFirstNode(key, firstChildWithoutATrash(node))
 	if !ok {
-		val, ok = d.searchFirstNode(key, nextSiblingWithoutATrash(node))
+		val, ok = d.SearchFirstNode(key, nextSiblingWithoutATrash(node))
 	}
 	return val, ok
 }
@@ -34,14 +39,14 @@ func anyMatch(attrName string, attributes []html.Attribute) bool {
 	return match
 }
 
-func (d DefaultSearcher) searchSecondNode(key string, prevSibling *html.Node, depth int) (ValueAndParent, bool) {
+func (d DefaultSearcher) SearchSecondNode(key string, prevSibling *html.Node, depth int) (ValueAndParent, bool) {
 	if prevSibling == nil {
 		return emptyValueAndParent(key), false
 	}
 	current := nextSiblingWithoutATrash(prevSibling)
 	parent := prevSibling.Parent
 	if current == nil {
-		return d.searchSecondNode(key, parent, depth+1)
+		return d.SearchSecondNode(key, parent, depth+1)
 	}
 	child := current
 	currDepth := depth
@@ -53,7 +58,7 @@ func (d DefaultSearcher) searchSecondNode(key string, prevSibling *html.Node, de
 	if ok {
 		return ValueAndParent{key, found, current, depth}, true
 	}
-	return d.searchSecondNode(key, current, depth)
+	return d.SearchSecondNode(key, current, depth)
 }
 
 func scanSiblingsValues(key string, current *html.Node) (string, bool) {
@@ -80,7 +85,7 @@ func extractValue(node *html.Node) string {
 	return extractValue(node.FirstChild)
 }
 
-func (d DefaultSearcher) getNextSiblingValue(prevParent ValueAndParent) ValueAndParent {
+func (d DefaultSearcher) GetNextSiblingValue(prevParent ValueAndParent) ValueAndParent {
 	current := prevParent.Parent
 	key := prevParent.Key
 	if current == nil {
