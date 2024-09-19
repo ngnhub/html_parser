@@ -1,4 +1,4 @@
-package web
+package api
 
 import (
 	"github.com/bmizerany/pat"
@@ -21,7 +21,7 @@ func (Router) Route() http.Handler {
 	mux := pat.New()
 
 	home := HomeController{context}
-	scrapperService := service.ScrapperService{Searcher: defaultsearcher.DefaultSearcher{}}
+	scrapperService := service.PatternDetectScrapperService{Searcher: defaultsearcher.DefaultSearcher{}}
 	scrapper := ScrapperController{service: scrapperService}
 
 	mux.Get("/", &home)
