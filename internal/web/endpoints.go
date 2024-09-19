@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/ngnhub/html_scrapper/internal/config"
 	"github.com/ngnhub/html_scrapper/internal/service"
+	"github.com/ngnhub/html_scrapper/internal/service/search"
 	"github.com/ngnhub/html_scrapper/pkg"
 	log "github.com/sirupsen/logrus"
 	"net/http"
@@ -26,8 +27,8 @@ type ScrapperController struct {
 }
 
 type ParseRequest struct {
-	HtmlAddress string   `json:"html_address"`
-	Keys        []string `json:"keys"`
+	HtmlAddress string       `json:"html_address"`
+	Keys        []search.Key `json:"keys"`
 }
 
 func (p *ScrapperController) ServeHTTP(w http.ResponseWriter, r *http.Request) {

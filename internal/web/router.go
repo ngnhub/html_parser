@@ -4,7 +4,7 @@ import (
 	"github.com/bmizerany/pat"
 	"github.com/ngnhub/html_scrapper/internal/config"
 	"github.com/ngnhub/html_scrapper/internal/service"
-	"github.com/ngnhub/html_scrapper/internal/service/searcher/default"
+	"github.com/ngnhub/html_scrapper/internal/service/search/default"
 	"net/http"
 )
 

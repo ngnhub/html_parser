@@ -1,25 +1,30 @@
-package searcher
+package search
 
 import "golang.org/x/net/html"
 
+type Key struct {
+	Elem string
+	Name string
+}
+
 type ValueAndNode struct {
-	Key   string
+	Key   Key
 	Value string
 	Node  *html.Node
 }
 
-func EmptyValueAndNode(key string) ValueAndNode {
+func EmptyValueAndNode(key Key) ValueAndNode {
 	return ValueAndNode{key, "", nil}
 }
 
 type ValueAndParent struct {
-	Key    string
+	Key    Key
 	Value  string
 	Parent *html.Node
 	Depth  int
 }
 
-func EmptyValueAndParent(key string) ValueAndParent {
+func EmptyValueAndParent(key Key) ValueAndParent {
 	return ValueAndParent{key, "", nil, 0}
 }
 

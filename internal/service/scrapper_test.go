@@ -2,7 +2,8 @@ package service
 
 import (
 	"bytes"
-	"github.com/ngnhub/html_scrapper/internal/service/searcher/default"
+	"github.com/ngnhub/html_scrapper/internal/service/search"
+	"github.com/ngnhub/html_scrapper/internal/service/search/default"
 	"golang.org/x/net/html"
 	"os"
 	"reflect"
@@ -17,12 +18,12 @@ func TestScrap(t *testing.T) {
 	childIsMissed, _ := html.Parse(bytes.NewReader(childIsMissedCaseFile))
 	whenOnlySingleValueCaseFile, _ := os.ReadFile("test_data/scrapper_test_when_only_single_value.html")
 	whenOnlySingleValueCase, _ := html.Parse(bytes.NewReader(whenOnlySingleValueCaseFile))
-	keys := []string{
-		"Test class 1", "Test class 2",
+	keys := []search.Key{
+		{"div", "Test class 1"}, {"div", "Test class 2"},
 	}
 
 	type args struct {
-		keys []string
+		keys []search.Key
 		node *html.Node
 	}
 	searcher := defaultsearcher.DefaultSearcher{}
