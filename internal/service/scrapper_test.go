@@ -2,7 +2,8 @@ package service
 
 import (
 	"bytes"
-	"github.com/ngnhub/html_scrapper/internal/service/searcher/default"
+	"github.com/ngnhub/html_scrapper/internal/service/search"
+	"github.com/ngnhub/html_scrapper/internal/service/search/default"
 	"golang.org/x/net/html"
 	"os"
 	"reflect"
@@ -10,19 +11,24 @@ import (
 )
 
 func TestScrap(t *testing.T) {
-	// given
 	simpleCaseFile, _ := os.ReadFile("test_data/scrapper_test_simple_case.html")
 	simpleCase, _ := html.Parse(bytes.NewReader(simpleCaseFile))
+
 	childIsMissedCaseFile, _ := os.ReadFile("test_data/scrapper_test_when_child_is_missed.html")
 	childIsMissed, _ := html.Parse(bytes.NewReader(childIsMissedCaseFile))
+
 	whenOnlySingleValueCaseFile, _ := os.ReadFile("test_data/scrapper_test_when_only_single_value.html")
 	whenOnlySingleValueCase, _ := html.Parse(bytes.NewReader(whenOnlySingleValueCaseFile))
-	keys := []string{
-		"Test class 1", "Test class 2",
+
+	differentKeysCaseFile, _ := os.ReadFile("test_data/scrapper_test_with_different_keys_case.html")
+	differentKeysCase, _ := html.Parse(bytes.NewReader(differentKeysCaseFile))
+
+	defaultKeys := []search.Key{
+		{"div", "Test class 1"}, {"div", "Test class 2"},
 	}
 
 	type args struct {
-		keys []string
+		keys []search.Key
 		node *html.Node
 	}
 	searcher := defaultsearcher.DefaultSearcher{}
@@ -32,9 +38,10 @@ func TestScrap(t *testing.T) {
 		args    args
 		want    []Found
 	}{
-		{name: "Simple case",
+		{
+			name:    "Simple case",
 			service: &ScrapperService{Searcher: searcher},
-			args:    args{keys: keys, node: simpleCase},
+			args:    args{keys: defaultKeys, node: simpleCase},
 			want: []Found{
 				{[]string{"Some Value", "Some Value 2"}},
 				{[]string{"Some Value", ""}},
@@ -43,9 +50,10 @@ func TestScrap(t *testing.T) {
 				{[]string{"", "Some Value 2"}},
 			},
 		},
-		{name: "When child is missed",
+		{
+			name:    "When child is missed",
 			service: &ScrapperService{Searcher: searcher},
-			args:    args{keys: keys, node: childIsMissed},
+			args:    args{keys: defaultKeys, node: childIsMissed},
 			want: []Found{
 				{[]string{"Some Value", "Some Value 2"}},
 				{[]string{"Some Value", ""}},
@@ -53,12 +61,24 @@ func TestScrap(t *testing.T) {
 				{[]string{"", "Some Value 2"}},
 			},
 		},
-		{name: "When only single value",
+		{
+			name:    "When only single value",
 			service: &ScrapperService{Searcher: searcher},
-			args:    args{keys: keys, node: whenOnlySingleValueCase},
+			args:    args{keys: defaultKeys, node: whenOnlySingleValueCase},
 			want: []Found{
 				{[]string{"Some Value", "Some Value 2"}},
 				{[]string{"", "Some Value 2"}},
+			},
+		},
+		{
+			name:    "With different keys",
+			service: &ScrapperService{Searcher: searcher},
+			args: args{keys: []search.Key{{"div", "Div class"},
+				{"h1", "h1 class"}}, node: differentKeysCase},
+			want: []Found{
+				{[]string{"Some Value", "Some P Value"}},
+				{[]string{"Some Value", "Some P Value"}},
+				{[]string{"Some Value", ""}},
 			},
 		},
 	}
