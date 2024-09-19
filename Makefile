@@ -7,3 +7,6 @@ coverage: test
 
 linter :
 	golangci-lint run
+
+run:
+	go run ./cmd/html_scrapper/main.go
