@@ -5,7 +5,6 @@ import (
 	"github.com/ngnhub/html_scrapper/internal/config"
 	"github.com/ngnhub/html_scrapper/internal/service"
 	"github.com/ngnhub/html_scrapper/internal/service/search"
-	"github.com/ngnhub/html_scrapper/pkg"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 )
@@ -38,7 +37,7 @@ func (p *ScrapperController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		AutoHandle(err, w)
 		return
 	}
-	html, err := pkg.Read(request.HtmlAddress)
+	html, err := service.Read(request.HtmlAddress)
 	if err != nil {
 		AutoHandle(err, w)
 		return

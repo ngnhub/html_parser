@@ -24,7 +24,7 @@ func TestScrap(t *testing.T) {
 	differentKeysCase, _ := html.Parse(bytes.NewReader(differentKeysCaseFile))
 
 	defaultKeys := []search.Key{
-		{"div", "Test class 1"}, {"div", "Test class 2"},
+		{Elem: "div", Name: "Test class 1"}, {Elem: "div", Name: "Test class 2"},
 	}
 
 	searcher := defaultsearcher.DefaultSearcher{}
@@ -75,8 +75,10 @@ func TestScrap(t *testing.T) {
 		{
 			name:    "With different keys",
 			service: scrapperService,
-			args: args{keys: []search.Key{{"div", "Div class"},
-				{"h1", "h1 class"}}, node: differentKeysCase},
+			args: args{keys: []search.Key{
+				{Elem: "div", Name: "Div class"},
+				{Elem: "h1", Name: "h1 class"},
+			}, node: differentKeysCase},
 			want: []Found{
 				{[]string{"Some Value", "Some P Value"}},
 				{[]string{"Some Value", "Some P Value"}},

@@ -3,7 +3,7 @@ package api
 import (
 	"errors"
 	"fmt"
-	"github.com/ngnhub/html_scrapper/pkg"
+	"github.com/ngnhub/html_scrapper/internal/service"
 	"net/http"
 	"testing"
 )
@@ -40,7 +40,7 @@ func TestAutoHandle(t *testing.T) {
 		{
 			name: "Should write Bad request in case of Invalid URL error",
 			args: args{
-				pkg.InvalidURLError{Cause: errors.New("some other error")},
+				service.InvalidURLError{Cause: errors.New("some other error")},
 				&MockedResponseWriter{},
 			},
 			expectedStatusCode: http.StatusBadRequest,
@@ -50,7 +50,7 @@ func TestAutoHandle(t *testing.T) {
 			name: "Should write Bad request in case of Invalid URL error is not in the top of the chain",
 			args: args{
 				fmt.Errorf("some top error: %w",
-					pkg.InvalidURLError{Cause: errors.New("some other error")}),
+					service.InvalidURLError{Cause: errors.New("some other error")}),
 				&MockedResponseWriter{},
 			},
 			expectedStatusCode: http.StatusBadRequest,
