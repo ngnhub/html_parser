@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/ngnhub/html_scrapper/internal/config"
 	"github.com/ngnhub/html_scrapper/internal/service"
+	"github.com/ngnhub/html_scrapper/internal/service/reader"
 	"github.com/ngnhub/html_scrapper/internal/service/search"
 	log "github.com/sirupsen/logrus"
 	"net/http"
@@ -37,7 +38,7 @@ func (p *ScrapperController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		AutoHandle(err, w)
 		return
 	}
-	html, err := service.Read(request.HtmlAddress)
+	html, err := reader.Read(request.HtmlAddress)
 	if err != nil {
 		AutoHandle(err, w)
 		return
