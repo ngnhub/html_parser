@@ -1,15 +1,15 @@
-package web
+package api
 
 import (
 	"errors"
 	"fmt"
-	"github.com/ngnhub/html_scrapper/pkg"
+	"github.com/ngnhub/html_scrapper/internal/service/reader"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 
 func AutoHandle(err error, w http.ResponseWriter) {
-	var invalidUrl pkg.InvalidURLError
+	var invalidUrl reader.InvalidURLError
 	switch {
 	case errors.As(err, &invalidUrl):
 		badRequest(err, w)

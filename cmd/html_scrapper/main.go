@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/ngnhub/html_scrapper/internal/api"
 	"github.com/ngnhub/html_scrapper/internal/config"
-	"github.com/ngnhub/html_scrapper/internal/web"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 )
@@ -11,7 +11,7 @@ import (
 func main() {
 	app := config.CreateApplication()
 	properties := app.ConfigProperties
-	router := web.NewRouter(app)
+	router := api.NewRouter(app)
 	handler := router.Route()
 	server := &http.Server{Addr: fmt.Sprintf(":%v", properties.ServerProperties.Port), Handler: handler}
 	log.Infof("Server started on %v", server.Addr)

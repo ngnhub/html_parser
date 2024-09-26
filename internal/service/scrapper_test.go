@@ -24,23 +24,25 @@ func TestScrap(t *testing.T) {
 	differentKeysCase, _ := html.Parse(bytes.NewReader(differentKeysCaseFile))
 
 	defaultKeys := []search.Key{
-		{"div", "Test class 1"}, {"div", "Test class 2"},
+		{Elem: "div", Name: "Test class 1"}, {Elem: "div", Name: "Test class 2"},
 	}
+
+	searcher := defaultsearcher.DefaultSearcher{}
+	scrapperService := PatternDetectScrapperService{Searcher: searcher}
 
 	type args struct {
 		keys []search.Key
 		node *html.Node
 	}
-	searcher := defaultsearcher.DefaultSearcher{}
 	tests := []struct {
 		name    string
-		service *ScrapperService
+		service PatternDetectScrapperService
 		args    args
 		want    []Found
 	}{
 		{
 			name:    "Simple case",
-			service: &ScrapperService{Searcher: searcher},
+			service: scrapperService,
 			args:    args{keys: defaultKeys, node: simpleCase},
 			want: []Found{
 				{[]string{"Some Value", "Some Value 2"}},
@@ -52,7 +54,7 @@ func TestScrap(t *testing.T) {
 		},
 		{
 			name:    "When child is missed",
-			service: &ScrapperService{Searcher: searcher},
+			service: scrapperService,
 			args:    args{keys: defaultKeys, node: childIsMissed},
 			want: []Found{
 				{[]string{"Some Value", "Some Value 2"}},
@@ -63,7 +65,7 @@ func TestScrap(t *testing.T) {
 		},
 		{
 			name:    "When only single value",
-			service: &ScrapperService{Searcher: searcher},
+			service: scrapperService,
 			args:    args{keys: defaultKeys, node: whenOnlySingleValueCase},
 			want: []Found{
 				{[]string{"Some Value", "Some Value 2"}},
@@ -72,9 +74,11 @@ func TestScrap(t *testing.T) {
 		},
 		{
 			name:    "With different keys",
-			service: &ScrapperService{Searcher: searcher},
-			args: args{keys: []search.Key{{"div", "Div class"},
-				{"h1", "h1 class"}}, node: differentKeysCase},
+			service: scrapperService,
+			args: args{keys: []search.Key{
+				{Elem: "div", Name: "Div class"},
+				{Elem: "h1", Name: "h1 class"},
+			}, node: differentKeysCase},
 			want: []Found{
 				{[]string{"Some Value", "Some P Value"}},
 				{[]string{"Some Value", "Some P Value"}},

@@ -5,7 +5,7 @@ import (
 	"golang.org/x/net/html"
 )
 
-type ScrapperService struct {
+type PatternDetectScrapperService struct {
 	Searcher search.Searcher
 }
 
@@ -13,7 +13,7 @@ type Found struct {
 	Values []string
 }
 
-func (service *ScrapperService) Scrap(keys []search.Key, source *html.Node) []Found {
+func (service PatternDetectScrapperService) Scrap(keys []search.Key, source *html.Node) []Found {
 	var results []Found
 	firstValueToNodes := service.searchFirstNodes(keys, source)
 	results = append(results, Found{firstValueToNodes.MapToStrings()})
@@ -33,7 +33,7 @@ func (service *ScrapperService) Scrap(keys []search.Key, source *html.Node) []Fo
 	return results
 }
 
-func (service *ScrapperService) searchFirstNodes(keys []search.Key, source *html.Node) search.ValuesAndNodes {
+func (service PatternDetectScrapperService) searchFirstNodes(keys []search.Key, source *html.Node) search.ValuesAndNodes {
 	firstValueToNodes := make(search.ValuesAndNodes, 0, len(keys))
 	for _, key := range keys {
 		valueToNode, _ := service.Searcher.SearchFirstNode(key, source)
@@ -42,7 +42,7 @@ func (service *ScrapperService) searchFirstNodes(keys []search.Key, source *html
 	return firstValueToNodes
 }
 
-func (service *ScrapperService) searchSecondNodes(firstValueToNodes search.ValuesAndNodes) search.ValuesAndParents {
+func (service PatternDetectScrapperService) searchSecondNodes(firstValueToNodes search.ValuesAndNodes) search.ValuesAndParents {
 	secondValueToNodes := make(search.ValuesAndParents, 0, len(firstValueToNodes))
 	for _, first := range firstValueToNodes {
 		second, _ := service.Searcher.SearchSecondNode(first.Key, first.Node, 0)
@@ -51,7 +51,7 @@ func (service *ScrapperService) searchSecondNodes(firstValueToNodes search.Value
 	return secondValueToNodes
 }
 
-func (service *ScrapperService) searchNextNodes(currentValueToNodes search.ValuesAndParents) search.ValuesAndParents {
+func (service PatternDetectScrapperService) searchNextNodes(currentValueToNodes search.ValuesAndParents) search.ValuesAndParents {
 	nextValueToNodes := search.ValuesAndParents{}
 	for _, value := range currentValueToNodes {
 		nextValueToNodes = append(nextValueToNodes, service.Searcher.GetNextSiblingValue(value))
